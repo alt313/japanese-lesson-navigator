@@ -58,7 +58,7 @@ def main():
         match = re.search(r"\bDay\s*(\d+)\b", title, re.I)
         if match:
             day_blocks = children(block["id"])
-            substantive = [b for b in day_blocks if b.get("type") not in ("child_page", "child_database") and not is_navigation(b)]
+            substantive = [b for b in day_blocks if b.get("type") not in ("child_page", "child_database", "to_do", "heading_1", "heading_2", "heading_3") and not is_navigation(b)]
             if substantive:
                 entries.append((int(match.group(1)), block["id"]))
     entries.sort()
