@@ -56,7 +56,11 @@ def main():
         if block.get("type") != "child_page": continue
         title = block["child_page"].get("title", "")
         match = re.search(r"\bDay\s*(\d+)\b", title, re.I)
-        if match: entries.append((int(match.group(1)), block["id"]))
+        if match:
+            day_blocks = children(block["id"])
+            substantive = [b for b in day_blocks if b.get("type") not in ("child_page", "child_database") and not is_navigation(b)]
+            if substantive:
+                entries.append((int(match.group(1)), block["id"]))
     entries.sort()
     print("Found:", [(d, p) for d, p in entries])
     if not entries: raise RuntimeError("No day pages found; refusing to edit")
